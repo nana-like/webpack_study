@@ -2,7 +2,7 @@
 
 > 뚝딱뚝딱 웹팩을 배워봅니다 🤩
 
-## 튜토리얼
+## Node.js
 
 ### NPM
 
@@ -20,11 +20,90 @@ devDependencies에 들어간 라이브러리는 빌드하고 배포할 때 애�
 - 프로젝트 정보의 디펜던시(의존성)를 관리하는 문서. 이 문서를 통해 어느 곳에서든 동일한 개발 환경을 구축할 수 있다.
 - `package-lock.json`은 npm으로 node_modules 트리나 package.json 파일을 수정하게 되면 자동으로 생성되는 파일이다. 이 파일은 정확한 버전 정보를 기록하므로, 항상 같은 의존성 구조를 갖도록 할 수 있다.
 
-### Webpack Config
+---
+
+## 시작하기
+
+### 개발 환경 구성
+
+1. 웹팩 설치
+
+```Shell
+npm init -y
+npm i webpack webpack-cli -D
+npm i lodash
+```
+
+2. index.js 생성
+
+```JS
+// index.js
+
+import _ from 'lodash';
+
+function component() {
+  var element = document.createElement('div');
+
+  /* lodash is required for the next line to work */
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+  return element;
+}
+
+document.body.appendChild(component());
+```
+
+3. 웹팩 설정 (webpack.config.js 설정)
+
+```JS
+// webpack.config.js
+
+var path = require('path');
+
+module.exports = {
+  mode: 'none',
+  entry: './src/index.js',
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+```
+
+4. 빌드 설정
+
+```JSON
+// package.json
+
+"scripts": {
+  "build": "webpack"
+}
+```
+
+5. 빌드
+
+```Shell
+npm run build #결과: dist 폴더 아래 main.js 생성
+```
+
+### 웹팩 사용 비교
+
+- 웹팩을 사용하지 않았다면...
+  1. index.html 요청
+  2. lodash.js 요청
+  3. main.js 요청
+
+- 웹팩을 사용하면
+  1. index.html 요청
+  2. main.js 요청
+
+> HTTP 요청이 줄어드는 효과! (우와아)
+
+### 웹팩 Config
 
 #### Mode
 
-```JSON
+```JS
 module.exports = {
   mode: 'none'
 }
